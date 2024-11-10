@@ -6,5 +6,8 @@ scikit-learn
 catboost
 xgboost
 Flask
+folium
+geopy
+datetime
 
--e .
+#-e .
