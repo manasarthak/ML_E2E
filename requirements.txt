@@ -9,5 +9,6 @@ Flask
 folium
 geopy
 datetime
+dill
 
 #-e .
