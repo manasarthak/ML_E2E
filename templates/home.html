@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Anomaly Detection Results</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Anomaly Detection System</h1>
+
+    <!-- Form for inputting transaction amount and customer age -->
+    <form action="/predictdata" method="POST">
+        <label for="transaction_amount">Transaction Amount:</label>
+        <input type="number" id="transaction_amount" name="transaction_amount" required step="0.01"><br><br>
+
+        <label for="customer_age">Customer Age:</label>
+        <input type="number" id="customer_age" name="customer_age" required><br><br>
+
+        <input type="submit" value="Detect Anomaly">
+    </form>
+
+    <!-- Display model results if they exist -->
+    {% if results %}
+    <h2>Model Results</h2>
+    <table>
+        <tr>
+            <th>Model</th>
+            <th>Anomaly</th>
+            <th>Details</th>
+        </tr>
+        {% for model_name, result in results.items() %}
+        <tr>
+            <td>{{ model_name }}</td>
+            <td>{{ 'Yes' if result['anomaly'] else 'No' }}</td>
+            <td>
+                {% if model_name == 'kmeans' %}
+                    Distance from Centroid: {{ result['distance'] }}
+                {% elif model_name == 'dbscan' %}
+                    Outlier Label: {{ result['label'] == -1 and 'Outlier' or 'Inlier' }}
+                {% elif model_name == 'hierarchial' %}
+                    Distance from Cluster Mean: {{ result['distance'] }}
+                {% elif model_name == 'iso_forest' %}
+                    Anomaly Score: {{ result['score'] }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</body>
+</html>
