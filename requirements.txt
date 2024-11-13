@@ -10,5 +10,11 @@ folium
 geopy
 datetime
 dill
-
+missingno
+wordcloud
+plotly
+nbformat
+lightgbm
+hyperopt
+bayes_opt
 #-e .

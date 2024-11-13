@@ -15,13 +15,36 @@ def index():
 @app.route('/predictdata', methods=['GET', 'POST'])
 def predict_datapoint():
     if request.method == 'GET':
-        # Render home.html for data input
         return render_template('home.html')
     else:
-        # Capture form data and create a CustomData object
+        # Capture form data
+        person_age = int(request.form.get('person_age'))
+        person_income = float(request.form.get('person_income'))
+        person_home_ownership = request.form.get('person_home_ownership')
+        person_emp_length = float(request.form.get('person_emp_length'))
+        loan_intent = request.form.get('loan_intent')
+        loan_grade = request.form.get('loan_grade')
+        loan_amnt = float(request.form.get('loan_amnt'))
+        loan_int_rate = float(request.form.get('loan_int_rate'))
+        cb_person_default_on_file = request.form.get('cb_person_default_on_file')
+        cb_person_cred_hist_length = int(request.form.get('cb_person_cred_hist_length'))
+        
+        # Calculate "Loan Percent of Income"
+        loan_percent_income = (loan_amnt / person_income) * 100
+
+        # Create a CustomData object using these values
         data = CustomData(
-            transaction_amount=float(request.form.get('transaction_amount')),
-            customer_age=int(request.form.get('customer_age'))
+            person_age=person_age,
+            person_income=person_income,
+            person_home_ownership=person_home_ownership,
+            person_emp_length=person_emp_length,
+            loan_intent=loan_intent,
+            loan_grade=loan_grade,
+            loan_amnt=loan_amnt,
+            loan_int_rate=loan_int_rate,
+            loan_percent_income=loan_percent_income,
+            cb_person_default_on_file=cb_person_default_on_file,
+            cb_person_cred_hist_length=cb_person_cred_hist_length
         )
         
         # Convert the data to a DataFrame for the prediction pipeline
@@ -36,5 +59,4 @@ def predict_datapoint():
         return render_template('home.html', results=results)
 
 if __name__ == "__main__":
-    app.run(host='127.0.0.1', port=5001, debug=True)
-
+    app.run(host='0.0.0.0', port=5001, debug=True)

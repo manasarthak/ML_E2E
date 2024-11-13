@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Anomaly Detection Results</title>
+    <title>Loan Default Prediction</title>
     <style>
         table {
-            width: 50%;
+            width: 70%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
         th, td {
             border: 1px solid black;
@@ -19,41 +20,98 @@
     </style>
 </head>
 <body>
-    <h1>Anomaly Detection System</h1>
+    <h1>Loan Default Prediction System</h1>
 
-    <!-- Form for inputting transaction amount and customer age -->
+    <!-- Form for inputting loan application details -->
     <form action="/predictdata" method="POST">
-        <label for="transaction_amount">Transaction Amount:</label>
-        <input type="number" id="transaction_amount" name="transaction_amount" required step="0.01"><br><br>
+        <label for="person_age">Applicant Age:</label>
+        <input type="number" id="person_age" name="person_age" required><br><br>
 
-        <label for="customer_age">Customer Age:</label>
-        <input type="number" id="customer_age" name="customer_age" required><br><br>
+        <label for="person_income">Annual Income (USD):</label>
+        <input type="number" id="person_income" name="person_income" required step="0.01"><br><br>
 
-        <input type="submit" value="Detect Anomaly">
+        <label for="person_home_ownership">Home Ownership:</label>
+        <select id="person_home_ownership" name="person_home_ownership" required>
+            <option value="RENT">Rent</option>
+            <option value="MORTGAGE">Mortgage</option>
+            <option value="OWN">Own</option>
+            <option value="OTHER">Other</option>
+        </select><br><br>
+
+        <label for="person_emp_length">Employment Length (years):</label>
+        <input type="number" id="person_emp_length" name="person_emp_length" required step="0.1"><br><br>
+
+        <label for="loan_intent">Loan Intent:</label>
+        <select id="loan_intent" name="loan_intent" required>
+            <option value="PERSONAL">Personal</option>
+            <option value="EDUCATION">Education</option>
+            <option value="MEDICAL">Medical</option>
+            <option value="VENTURE">Venture</option>
+            <option value="HOMEIMPROVEMENT">Home Improvement</option>
+            <option value="DEBTCONSOLIDATION">Debt Consolidation</option>
+        </select><br><br>
+
+        <label for="loan_grade">Loan Grade:</label>
+        <select id="loan_grade" name="loan_grade" required title="Loan grade based on creditworthiness.">
+            <option value="A">A - High creditworthiness, low risk</option>
+            <option value="B">B - Relatively low risk</option>
+            <option value="C">C - Moderate creditworthiness</option>
+            <option value="D">D - Higher risk</option>
+            <option value="E">E - Lower creditworthiness, higher risk</option>
+            <option value="F">F - Significant credit risk</option>
+            <option value="G">G - Lowest creditworthiness, highest risk</option>
+        </select><br><br>
+
+        <label for="loan_amnt">Loan Amount (USD):</label>
+        <input type="number" id="loan_amnt" name="loan_amnt" required step="0.01"><br><br>
+
+        <label for="loan_int_rate">Interest Rate (%):</label>
+        <input type="number" id="loan_int_rate" name="loan_int_rate" required step="0.01"><br><br>
+
+        <label for="cb_person_default_on_file">Credit Bureau Default Record:</label>
+        <select id="cb_person_default_on_file" name="cb_person_default_on_file" required>
+            <option value="N">No</option>
+            <option value="Y">Yes</option>
+        </select><br><br>
+
+        <label for="cb_person_cred_hist_length">Credit History Length (years):</label>
+        <input type="number" id="cb_person_cred_hist_length" name="cb_person_cred_hist_length" required><br><br>
+
+        <input type="submit" value="Predict Default Risk">
     </form>
 
-    <!-- Display model results if they exist -->
+        <!-- Display model results if they exist -->
     {% if results %}
-    <h2>Model Results</h2>
+    <h2>Prediction Results</h2>
     <table>
         <tr>
             <th>Model</th>
-            <th>Anomaly</th>
-            <th>Details</th>
+            <th>Predicted Class</th>
+            <th>Default Probability</th>
+            <th>Assessment</th>
         </tr>
         {% for model_name, result in results.items() %}
         <tr>
             <td>{{ model_name }}</td>
-            <td>{{ 'Yes' if result['anomaly'] else 'No' }}</td>
+            <td>{{ 'Default' if result['predicted_class'] == 1 else 'Non-Default' }}</td>
             <td>
-                {% if model_name == 'kmeans' %}
-                    Distance from Centroid: {{ result['distance'] }}
-                {% elif model_name == 'dbscan' %}
-                    Outlier Label: {{ result['label'] == -1 and 'Outlier' or 'Inlier' }}
-                {% elif model_name == 'hierarchial' %}
-                    Distance from Cluster Mean: {{ result['distance'] }}
-                {% elif model_name == 'iso_forest' %}
-                    Anomaly Score: {{ result['score'] }}
+                {% if result['default_probability'] is not none %}
+                    {{ result['default_probability'] | round(2) }}%
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+            <td>
+                {% if result['default_probability'] is not none %}
+                    {% if result['default_probability'] >= 0.5 %}
+                        High Risk of Default
+                    {% elif result['default_probability'] >= 0.2 %}
+                        Moderate Risk of Default
+                    {% else %}
+                        Low Risk of Default
+                    {% endif %}
+                {% else %}
+                    N/A
                 {% endif %}
             </td>
         </tr>
