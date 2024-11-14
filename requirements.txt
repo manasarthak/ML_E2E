@@ -1,16 +1,15 @@
 pandas
 numpy
-seaborn
-matplotlib
+#seaborn
+#matplotlib
 scikit-learn
 catboost
 xgboost
 Flask
-datetime
 dill
 missingno
-wordcloud
-plotly
-nbformat
+#wordcloud
+#plotly
+#nbformat
 lightgbm
 #-e .
