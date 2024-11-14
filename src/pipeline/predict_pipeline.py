@@ -8,13 +8,13 @@ class PredictPipeline:
     def __init__(self):
         # Paths to the saved models and preprocessor
         self.model_paths = {
-            'knn': 'artifact/model/knn.pkl',
-            'xgb': 'artifact/model/xgb.pkl',
-            'cat': 'artifact/model/cat.pkl',
-            'lgb': 'artifact/model/lgb.pkl',
-            'ensemble': 'artifact/model/ensemble.pkl'
+            'knn': 'artifacts/model/knn.pkl',
+            'xgb': 'artifacts/model/xgb.pkl',
+            'cat': 'artifacts/model/cat.pkl',
+            'lgb': 'artifacts/model/lgb.pkl',
+            'ensemble': 'artifacts/model/ensemble.pkl'
         }
-        self.preprocessor_path = 'artifact/preprocessor.pkl'
+        self.preprocessor_path = 'artifacts/preprocessor.pkl'
 
     def predict(self, features):
         try:
