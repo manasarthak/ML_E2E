@@ -34,7 +34,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y jq unzip
           
-      - name: Pre-cleanup: Free up disk space
+      - name: Pre-cleanup:Free up disk space
         run: |
           echo "Starting pre-cleanup..."
           docker system prune -af --volumes  # Remove all unused containers, images, and volumes
@@ -66,7 +66,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
           
-      - name: Post-cleanup: Free up disk space
+      - name: Post-cleanup:Free up disk space
         run: |
           echo "Starting post-cleanup..."
           docker system prune -af --volumes  # Free space after build
@@ -90,7 +90,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Pre-pull cleanup: Free up disk space
+      - name: Pre-pull cleanup:Free up disk space
         run: |
           echo "Starting pre-pull cleanup..."
           docker system prune -af --volumes  # Remove unused Docker objects
@@ -100,7 +100,7 @@ jobs:
         run: |
           docker pull ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
          
-      - name: Post-pull cleanup: Free up disk space
+      - name: Post-pull cleanup:Free up disk space
         run: |
           echo "Starting post-pull cleanup..."
           docker system prune -af --volumes  # Cleanup after pulling image
