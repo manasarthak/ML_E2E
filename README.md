@@ -31,49 +31,34 @@ A Python Flask application handling API requests and serving predictions using p
     Ensemble of the above models.
 
 ### Feature Engineering 
-Includes handling missing values, one-hot encoding, and scaling.
+    Includes handling missing values, one-hot encoding, and scaling.
 ### Technologies Used
 #### Languages: 
-Python
+    Python
 #### Frameworks: 
-Flask, Scikit-learn, LightGBM, XGBoost, CatBoost
+    Flask, Scikit-learn, LightGBM, XGBoost, CatBoost
 #### Deployment: 
-Docker, AWS ECS, Elastic Beanstalk, Azure Web Apps
+    Docker, AWS ECS, Elastic Beanstalk, Azure Web Apps
 #### CI/CD: 
-GitHub Actions
+    GitHub Actions
 #### Cloud Services: 
-AWS (ECS, ECR, Beanstalk), Azure
+    AWS (ECS, ECR, Beanstalk, EC2 Instance), Azure
 
 ### Application Flow
 
 #### Input Features:
 
-person_age
-person_income
-person_home_ownership
-person_emp_length
-loan_intent
-loan_grade
-loan_amnt
-loan_int_rate
-cb_person_default_on_file
-cb_person_cred_hist_length
-Feature Engineering:
+    person_age
+    person_income
+    person_home_ownership
+    person_emp_length
+    loan_intent
+    loan_grade
+    loan_amnt
+    loan_int_rate
+    cb_person_default_on_file
+    cb_person_cred_hist_length
 
-Calculate loan_percent_income:
-loan_percent_income
-=
-(
-loan_amnt
-person_income
-)
-×
-100
-loan_percent_income=( 
-person_income
-loan_amnt
-​
- )×100
 
 ### Prediction Pipeline:
 
@@ -86,11 +71,15 @@ Displays whether the applicant is likely to default.
 Highlights predictions from individual models and the ensemble result.
 
 ### Model Performance:
-[ 2024-11-13 01:18:25,596 ] 117 root - INFO - knn - Accuracy: 0.8882921589688507, Precision: 0.8125544899738448, Recall: 0.6449826989619377, Specificity: 0.9576104100946372
-[ 2024-11-13 01:18:26,176 ] 117 root - INFO - xgb - Accuracy: 0.9338652754334816, Precision: 0.9592391304347826, Recall: 0.7328719723183391, Specificity: 0.9911277602523659
-[ 2024-11-13 01:18:27,941 ] 117 root - INFO - cat - Accuracy: 0.9357066134724566, Precision: 0.9613309352517986, Recall: 0.7397923875432526, Specificity: 0.9915220820189274
-[ 2024-11-13 01:18:28,238 ] 117 root - INFO - lgb - Accuracy: 0.9337118305969004, Precision: 0.9634034766697164, Recall: 0.728719723183391, Specificity: 0.9921135646687698
-[ 2024-11-13 01:18:33,047 ] 117 root - INFO - ensemble - Accuracy: 0.9353997237992941, Precision: 0.9714548802946593, Recall: 0.7301038062283737, Specificity: 0.9938880126182965
+    [ 2024-11-13 01:18:25,596 ] 117 root - INFO - knn - Accuracy: 0.8882921589688507, Precision: 0.8125544899738448, Recall: 0.6449826989619377, Specificity: 0.9576104100946372
+    
+    [ 2024-11-13 01:18:26,176 ] 117 root - INFO - xgb - Accuracy: 0.9338652754334816, Precision: 0.9592391304347826, Recall: 0.7328719723183391, Specificity: 0.9911277602523659
+    
+    [ 2024-11-13 01:18:27,941 ] 117 root - INFO - cat - Accuracy: 0.9357066134724566, Precision: 0.9613309352517986, Recall: 0.7397923875432526, Specificity: 0.9915220820189274
+    
+    [ 2024-11-13 01:18:28,238 ] 117 root - INFO - lgb - Accuracy: 0.9337118305969004, Precision: 0.9634034766697164, Recall: 0.728719723183391, Specificity: 0.9921135646687698
+    
+    [ 2024-11-13 01:18:33,047 ] 117 root - INFO - ensemble - Accuracy: 0.9353997237992941, Precision: 0.9714548802946593, Recall: 0.7301038062283737, Specificity: 0.9938880126182965
 
 ### License
 This project is licensed under the MIT License.
