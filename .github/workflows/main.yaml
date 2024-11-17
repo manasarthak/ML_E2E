@@ -1,4 +1,4 @@
-name: workflow
+name: workflow(deploying using docker images and AWS ECR)
 
 on:
   workflow_dispatch:  # Trigger workflow only on manual execution
